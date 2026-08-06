@@ -1,0 +1,171 @@
+	<html><body><script type="text/javascript">
+        const CUSTOMER_STORAGE_KEY = "fsc_chatCustomerInfo";
+        const REQUEST_CUSTOMER_INFO = "REQUEST_CHAT_CUSTOMER_INFO";
+        const CUSTOMER_INFO_RESPONSE = "CHAT_CUSTOMER_INFO_RESPONSE";
+        const SAVE_CUSTOMER_INFO = "SAVE_CHAT_CUSTOMER_INFO";
+
+        function getStoredCustomerInfo() {
+            try {
+                const storedValue = window.localStorage.getItem(
+                    CUSTOMER_STORAGE_KEY
+                );
+
+                const customerInfo = storedValue
+                    ? JSON.parse(storedValue)
+                    : {};
+
+                return {
+                    firstName: String(
+                        customerInfo.firstName || ""
+                    ).trim(),
+
+                    lastName: String(
+                        customerInfo.lastName || ""
+                    ).trim(),
+
+                    email: String(
+                        customerInfo.email || ""
+                    ).trim(),
+
+                    phone: String(
+                        customerInfo.phone || ""
+                    ).trim()
+                };
+            } catch (error) {
+                console.error(
+                    "Unable to read saved chat information:",
+                    error
+                );
+
+                return {
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    phone: ""
+                };
+            }
+        }
+
+        function isReturningCustomer(customerInfo) {
+            return Boolean(
+                customerInfo.firstName &&
+                customerInfo.lastName &&
+                customerInfo.email &&
+                customerInfo.phone
+            );
+        }
+
+        function saveCustomerInfo(messageData) {
+            const customerInfo = {
+                firstName: String(
+                    messageData.firstName || ""
+                ).trim(),
+
+                lastName: String(
+                    messageData.lastName || ""
+                ).trim(),
+
+                email: String(
+                    messageData.email || ""
+                ).trim(),
+
+                phone: String(
+                    messageData.phone || ""
+                ).trim()
+            };
+
+            try {
+                window.localStorage.setItem(
+                    CUSTOMER_STORAGE_KEY,
+                    JSON.stringify(customerInfo)
+                );
+            } catch (error) {
+                console.error(
+                    "Unable to save chat information:",
+                    error
+                );
+            }
+        }
+
+        window.addEventListener("message", function (event) {
+            const messageData = event.data;
+
+            if (
+                !messageData ||
+                typeof messageData !== "object"
+            ) {
+                return;
+            }
+
+            if (
+                messageData.type === REQUEST_CUSTOMER_INFO
+            ) {
+                const customerInfo =
+                    getStoredCustomerInfo();
+
+                const returningCustomer =
+                    isReturningCustomer(customerInfo);
+
+                if (
+                    event.source &&
+                    typeof event.source.postMessage ===
+                        "function"
+                ) {
+                    event.source.postMessage(
+                        {
+                            type: CUSTOMER_INFO_RESPONSE,
+                            firstName:
+                                customerInfo.firstName,
+                            lastName:
+                                customerInfo.lastName,
+                            email:
+                                customerInfo.email,
+                            phone:
+                                customerInfo.phone,
+                            isReturningCustomer:
+                                returningCustomer
+                        },
+                        "*"
+                    );
+                }
+
+                return;
+            }
+
+            if (
+                messageData.type === SAVE_CUSTOMER_INFO
+            ) {
+                saveCustomerInfo(messageData);
+            }
+        });
+
+        function initEmbeddedMessaging() {
+            try {
+                embeddedservice_bootstrap.settings.language =
+                    "en_US";
+
+                embeddedservice_bootstrap.init(
+                    "00DVE000009G9YP",
+                    "Julienne_edu_1",
+                    "https://escoffier--uat.sandbox.my.site.com/ESWJulienneedu1777220444593",
+                    {
+                        scrt2URL:
+                            "https://escoffier--uat.sandbox.my.salesforce-scrt.com"
+                    }
+                );
+            } catch (err) {
+                console.error(
+                    "Error loading Embedded Messaging: ",
+                    err
+                );
+            }
+        }
+    </script>
+
+    <script
+        type="text/javascript"
+        src="https://escoffier--uat.sandbox.my.site.com/ESWJulienneedu1777220444593/assets/js/bootstrap.min.js"
+        onload="initEmbeddedMessaging()">
+    </script>
+</body>
+</html>
