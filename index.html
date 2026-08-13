@@ -1,172 +1,439 @@
-	<html><body><script type="text/javascript">
-        const CUSTOMER_STORAGE_KEY = "fsc_chatCustomerInfo";
-        const REQUEST_CUSTOMER_INFO = "REQUEST_CHAT_CUSTOMER_INFO";
-        const CUSTOMER_INFO_RESPONSE = "CHAT_CUSTOMER_INFO_RESPONSE";
-        const SAVE_CUSTOMER_INFO = "SAVE_CHAT_CUSTOMER_INFO";
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#06183d">
 
-		
-        function getStoredCustomerInfo() {
-            try {
-                const storedValue = window.localStorage.getItem(
-                    CUSTOMER_STORAGE_KEY
-                );
+<title>Rivaan's 10th Birthday Countdown</title>
 
-                const customerInfo = storedValue
-                    ? JSON.parse(storedValue)
-                    : {};
+<style>
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(0, 221, 255, .25), transparent 25%),
+      radial-gradient(circle at 80% 20%, rgba(130, 70, 255, .28), transparent 30%),
+      linear-gradient(160deg, #06112d, #092966 55%, #071533);
+    color: white;
+  }
 
-                return {
-                    firstName: String(
-                        customerInfo.firstName || ""
-                    ).trim(),
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-                    lastName: String(
-                        customerInfo.lastName || ""
-                    ).trim(),
+  .screen {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-                    email: String(
-                        customerInfo.email || ""
-                    ).trim(),
+  .pixel {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #25d9ff;
+    opacity: .35;
+    transform: rotate(15deg);
+    box-shadow:
+      70px 40px #7c5cff,
+      140px 90px #ffd84a,
+      250px 30px #25d9ff,
+      420px 120px #ff4dc4,
+      600px 50px #7c5cff,
+      760px 150px #ffd84a;
+  }
 
-                    phone: String(
-                        customerInfo.phone || ""
-                    ).trim()
-                };
-            } catch (error) {
-                console.error(
-                    "Unable to read saved chat information:",
-                    error
-                );
+  .top-title {
+    position: absolute;
+    top: 4vh;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0 20px;
+  }
 
-                return {
-                    firstName: "",
-                    lastName: "",
-                    email: "",
-                    phone: ""
-                };
-            }
-        }
+  .title {
+    font-size: clamp(34px, 6vw, 76px);
+    font-weight: 1000;
+    letter-spacing: -1px;
+    margin: 0;
+    color: white;
+    text-shadow:
+      0 0 10px #00d9ff,
+      0 0 24px #145eff,
+      5px 5px 0 #14205c;
+  }
 
-        function isReturningCustomer(customerInfo) {
-            return Boolean(
-                customerInfo.firstName &&
-                customerInfo.lastName &&
-                customerInfo.email &&
-                customerInfo.phone
-            );
-        }
+  .subtitle {
+    margin-top: 8px;
+    color: #ffe259;
+    font-size: clamp(22px, 4vw, 48px);
+    font-weight: 1000;
+    text-shadow:
+      0 0 8px #ff9f00,
+      3px 3px 0 #7a2800;
+  }
 
-        function saveCustomerInfo(messageData) {
-            const customerInfo = {
-                firstName: String(
-                    messageData.firstName || ""
-                ).trim(),
+  .level {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 18px;
+    border-radius: 12px;
+    border: 2px solid #4eeaff;
+    background: rgba(3, 17, 57, .82);
+    color: #d9fbff;
+    font-size: clamp(15px, 2.3vw, 24px);
+    font-weight: 800;
+    box-shadow: 0 0 18px rgba(0, 219, 255, .5);
+  }
 
-                lastName: String(
-                    messageData.lastName || ""
-                ).trim(),
+  .creature {
+    position: absolute;
+    bottom: 5vh;
+    font-size: clamp(58px, 10vw, 120px);
+    filter: drop-shadow(0 0 14px rgba(0,0,0,.7));
+    user-select: none;
+  }
 
-                email: String(
-                    messageData.email || ""
-                ).trim(),
+  .c1 { left: 2vw; }
+  .c2 { left: 17vw; }
+  .c3 { right: 17vw; }
+  .c4 { right: 2vw; }
 
-                phone: String(
-                    messageData.phone || ""
-                ).trim()
-            };
+  .controller {
+    position: absolute;
+    bottom: 2.5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(72px, 12vw, 145px);
+    filter: drop-shadow(0 0 18px #00cfff);
+  }
 
-            try {
-                window.localStorage.setItem(
-                    CUSTOMER_STORAGE_KEY,
-                    JSON.stringify(customerInfo)
-                );
-            } catch (error) {
-                console.error(
-                    "Unable to save chat information:",
-                    error
-                );
-            }
-        }
+  .countdown {
+    width: min(900px, 88vw);
+    margin-top: 15vh;
+    text-align: center;
+    z-index: 5;
+  }
 
-        window.addEventListener("message", function (event) {
-            const messageData = event.data;
+  .timer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
 
-            if (
-                !messageData ||
-                typeof messageData !== "object"
-            ) {
-                return;
-            }
+  .timebox {
+    padding: 20px 10px 15px;
+    border-radius: 20px;
+    background: rgba(3, 12, 42, .72);
+    border: 2px solid rgba(84, 230, 255, .9);
+    box-shadow:
+      0 0 18px rgba(0, 206, 255, .5),
+      inset 0 0 18px rgba(102, 76, 255, .2);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+  }
 
-            if (
-                messageData.type === REQUEST_CUSTOMER_INFO
-            ) {
-                const customerInfo =
-                    getStoredCustomerInfo();
+  .number {
+    font-size: clamp(42px, 7vw, 86px);
+    font-weight: 1000;
+    line-height: .95;
+    color: #fff;
+    text-shadow:
+      0 0 8px #00dbff,
+      0 0 18px #266cff,
+      3px 3px 0 #192867;
+  }
 
-                const returningCustomer =
-                    isReturningCustomer(customerInfo);
+  .label {
+    margin-top: 8px;
+    color: #baf7ff;
+    font-size: clamp(11px, 1.8vw, 18px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+  }
 
-                if (
-                    event.source &&
-                    typeof event.source.postMessage ===
-                        "function"
-                ) {
-                    event.source.postMessage(
-                        {
-                            type: CUSTOMER_INFO_RESPONSE,
-                            firstName:
-                                customerInfo.firstName,
-                            lastName:
-                                customerInfo.lastName,
-                            email:
-                                customerInfo.email,
-                            phone:
-                                customerInfo.phone,
-                            isReturningCustomer:
-                                returningCustomer
-                        },
-                        "*"
-                    );
-                }
+  .mission {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: rgba(3, 12, 42, .72);
+    border: 2px solid rgba(94, 236, 255, .8);
+    font-size: clamp(16px, 2.4vw, 28px);
+    font-weight: 900;
+    text-shadow: 0 0 12px #00cfff;
+  }
 
-                return;
-            }
+  .date {
+    margin-top: 10px;
+    color: #fff8b8;
+    font-weight: 900;
+    font-size: clamp(14px, 2vw, 20px);
+    text-shadow: 0 2px 6px rgba(0,0,0,.85);
+  }
 
-            if (
-                messageData.type === SAVE_CUSTOMER_INFO
-            ) {
-                saveCustomerInfo(messageData);
-            }
-        });
+  button {
+    margin-top: 16px;
+    border: 0;
+    border-radius: 14px;
+    padding: 13px 20px;
+    background: linear-gradient(#fff36a, #ffb100);
+    color: #06132d;
+    font-size: clamp(14px, 2vw, 19px);
+    font-weight: 1000;
+    box-shadow:
+      0 5px 0 #995000,
+      0 0 20px rgba(255, 193, 0, .6);
+  }
 
-        function initEmbeddedMessaging() {
-            try {
-                embeddedservice_bootstrap.settings.language =
-                    "en_US";
-				embeddedservice_bootstrap.settings.restrictSessionOnMessagingChannel = true
-				embeddedservice_bootstrap.init(
-                    "00DVE000009G9YP",
-                    "Julienne_edu_1",
-                    "https://escoffier--uat.sandbox.my.site.com/ESWJulienneedu1777220444593",
-                    {
-                        scrt2URL:
-                            "https://escoffier--uat.sandbox.my.salesforce-scrt.com"
-                    }
-                );
-            } catch (err) {
-                console.error(
-                    "Error loading Embedded Messaging: ",
-                    err
-                );
-            }
-        }
-    </script>
+  button:active {
+    transform: translateY(3px);
+    box-shadow:
+      0 2px 0 #995000,
+      0 0 14px rgba(255, 193, 0, .5);
+  }
 
-    <script
-        type="text/javascript"
-        src="https://escoffier--uat.sandbox.my.site.com/ESWJulienneedu1777220444593/assets/js/bootstrap.min.js"
-        onload="initEmbeddedMessaging()">
-    </script>
+  #power {
+    min-height: 28px;
+    margin-top: 10px;
+    color: #ffe35a;
+    font-size: clamp(15px, 2vw, 23px);
+    font-weight: 1000;
+    text-shadow: 0 0 10px #ffbf00;
+  }
+
+  .confetti {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  .piece {
+    position: absolute;
+    top: -40px;
+    font-size: 24px;
+    animation: fall 2.5s linear forwards;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(115vh) rotate(720deg);
+      opacity: .95;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .timer {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .countdown {
+      margin-top: 18vh;
+    }
+
+    .creature {
+      font-size: 58px;
+    }
+
+    .controller {
+      font-size: 74px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="screen">
+
+  <div class="pixel" style="top:18%; left:8%;"></div>
+  <div class="pixel" style="top:28%; right:12%;"></div>
+
+  <div class="top-title">
+    <div class="title">RIVAAN'S</div>
+    <div class="subtitle">10th BIRTHDAY</div>
+    <div class="level">🎮 LEVEL 10 UNLOCKS SOON! 🎮</div>
+  </div>
+
+  <!-- Original creature-collecting style characters -->
+  <div class="creature c1">⚡🐱</div>
+  <div class="creature c2">🔥🦎</div>
+  <div class="creature c3">💧🐢</div>
+  <div class="creature c4">🌿🦊</div>
+
+  <div class="controller">🎮</div>
+
+  <main class="countdown">
+
+    <section class="timer">
+      <div class="timebox">
+        <div class="number" id="days">00</div>
+        <div class="label">Days</div>
+      </div>
+
+      <div class="timebox">
+        <div class="number" id="hours">00</div>
+        <div class="label">Hours</div>
+      </div>
+
+      <div class="timebox">
+        <div class="number" id="minutes">00</div>
+        <div class="label">Minutes</div>
+      </div>
+
+      <div class="timebox">
+        <div class="number" id="seconds">00</div>
+        <div class="label">Seconds</div>
+      </div>
+    </section>
+
+    <div class="mission" id="message">
+      Birthday mission loading...
+    </div>
+
+    <div class="date">
+      🎂 August 22, 2026 • Level 10 🎮
+    </div>
+
+    <button id="powerup">
+      PRESS FOR POWER-UP ⚡
+    </button>
+
+    <div id="power"></div>
+
+  </main>
+
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+  const target = new Date("2026-08-22T00:00:00-04:00");
+
+  function pad(value) {
+    return String(value).padStart(2, "0");
+  }
+
+  function updateCountdown() {
+
+    const now = new Date();
+
+    let difference =
+      target.getTime() - now.getTime();
+
+    if (difference <= 0) {
+
+      document.getElementById("days").textContent = "00";
+      document.getElementById("hours").textContent = "00";
+      document.getElementById("minutes").textContent = "00";
+      document.getElementById("seconds").textContent = "00";
+
+      document.getElementById("message").textContent =
+        "🎉 HAPPY 10TH BIRTHDAY RIVAAN! LEVEL 10 UNLOCKED! 🏆";
+
+      return;
+    }
+
+    const totalSeconds =
+      Math.floor(difference / 1000);
+
+    const days =
+      Math.floor(totalSeconds / 86400);
+
+    const hours =
+      Math.floor((totalSeconds % 86400) / 3600);
+
+    const minutes =
+      Math.floor((totalSeconds % 3600) / 60);
+
+    const seconds =
+      totalSeconds % 60;
+
+    document.getElementById("days").textContent =
+      pad(days);
+
+    document.getElementById("hours").textContent =
+      pad(hours);
+
+    document.getElementById("minutes").textContent =
+      pad(minutes);
+
+    document.getElementById("seconds").textContent =
+      pad(seconds);
+
+    if (days === 1) {
+      document.getElementById("message").textContent =
+        "🚀 FINAL DAY! LEVEL 10 ALMOST UNLOCKED!";
+    } else {
+      document.getElementById("message").textContent =
+        "🚀 " + days + " DAYS UNTIL LEVEL 10!";
+    }
+  }
+
+  function celebrate() {
+
+    const confetti =
+      document.getElementById("confetti");
+
+    const icons =
+      ["🎉","⭐","⚡","🎮","✨","🎂","🏆"];
+
+    confetti.innerHTML = "";
+
+    for (let i = 0; i < 45; i++) {
+
+      const piece =
+        document.createElement("div");
+
+      piece.className = "piece";
+
+      piece.textContent =
+        icons[Math.floor(Math.random() * icons.length)];
+
+      piece.style.left =
+        Math.random() * 100 + "vw";
+
+      piece.style.animationDelay =
+        Math.random() * .7 + "s";
+
+      piece.style.animationDuration =
+        1.8 + Math.random() * 1.5 + "s";
+
+      confetti.appendChild(piece);
+    }
+
+    document.getElementById("power").textContent =
+      "⚡ RIVAAN +100 BIRTHDAY XP! 🏆";
+
+    setTimeout(() => {
+      confetti.innerHTML = "";
+    }, 4000);
+  }
+
+  document
+    .getElementById("powerup")
+    .addEventListener("click", celebrate);
+
+  updateCountdown();
+
+  setInterval(updateCountdown, 1000);
+</script>
+
 </body>
 </html>
