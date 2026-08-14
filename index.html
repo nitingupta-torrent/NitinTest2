@@ -14,171 +14,195 @@
 <meta name="apple-mobile-web-app-status-bar-style"
       content="black-translucent">
 
+<meta name="theme-color"
+      content="#041533">
+
 <title>Rivaan's Birthday Countdown</title>
 
 <style>
 
-html, body {
+html,
+body {
     margin: 0;
     width: 100%;
-    height: 100%;
-    overflow: hidden;
+    min-height: 100%;
     font-family:
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Arial,
-      sans-serif;
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    background-color: #041533;
 }
 
 body {
-    background-image: url("rivaan_birthday_background.png");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #041533;
+    min-height: 100vh;
+
+    background-image:
+        url("rivaan_birthday_background.png");
+
+    background-size:
+        contain;
+
+    background-position:
+        center top;
+
+    background-repeat:
+        no-repeat;
+
+    overflow-x:
+        hidden;
+
+    color:
+        white;
 }
 
 
 /* Main countdown area */
 
 .countdown-container {
-    position: absolute;
-    top: 46%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 82%;
-    max-width: 900px;
-    text-align: center;
+
+    width:
+        min(92%, 900px);
+
+    margin:
+        0 auto;
+
+    padding-top:
+        35vh;
+
+    padding-bottom:
+        40px;
+
+    text-align:
+        center;
 }
 
 
-/* Four boxes */
+/* Timer */
 
 .timer {
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
-      repeat(4, 1fr);
+        repeat(4, 1fr);
 
-    gap: 14px;
+    gap:
+        12px;
 }
 
 
-/* Individual countdown box */
+/* Timer boxes */
 
 .box {
 
     background:
-      rgba(2, 12, 45, 0.76);
+        rgba(2, 12, 45, 0.78);
 
     border:
-      2px solid #52eaff;
+        2px solid #52eaff;
 
-    border-radius: 18px;
+    border-radius:
+        18px;
 
     padding:
-      18px 8px;
+        16px 8px;
 
     box-shadow:
-
-      0 0 12px #00d8ff,
-
-      0 0 28px
-      rgba(0, 102, 255, .6),
-
-      inset
-      0 0 18px
-      rgba(41, 109, 255, .25);
+        0 0 12px #00d8ff,
+        0 0 25px rgba(0, 102, 255, .55),
+        inset 0 0 18px rgba(41, 109, 255, .22);
 
     backdrop-filter:
-      blur(5px);
+        blur(5px);
 
     -webkit-backdrop-filter:
-      blur(5px);
+        blur(5px);
 }
 
 
-/* Number */
+/* Countdown numbers */
 
 .number {
 
-    color: white;
+    color:
+        white;
 
     font-size:
-      clamp(42px, 7vw, 88px);
+        clamp(36px, 7vw, 82px);
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    line-height: 1;
+    line-height:
+        1;
 
     text-shadow:
-
-      0 0 7px #00ddff,
-
-      0 0 18px #126cff,
-
-      3px 3px 0 #111950;
+        0 0 7px #00ddff,
+        0 0 18px #126cff,
+        3px 3px 0 #111950;
 }
 
 
-/* DAYS / HOURS etc */
+/* Labels */
 
 .label {
 
-    margin-top: 7px;
+    margin-top:
+        7px;
 
-    color: #c6f8ff;
+    color:
+        #c6f8ff;
 
     font-size:
-      clamp(11px, 1.7vw, 18px);
+        clamp(10px, 1.5vw, 17px);
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    letter-spacing: .12em;
+    letter-spacing:
+        .1em;
 }
 
 
-/* Message underneath */
+/* Message */
 
 .message {
 
-    display: inline-block;
+    display:
+        inline-block;
 
-    margin-top: 18px;
+    margin-top:
+        16px;
 
     padding:
-
-      10px 22px;
+        10px 20px;
 
     border-radius:
-      30px;
+        30px;
 
-    color: white;
+    color:
+        white;
 
     background:
-      rgba(3, 16, 55, .80);
+        rgba(3, 16, 55, .82);
 
     border:
-
-      2px solid
-      #55edff;
+        2px solid #55edff;
 
     font-size:
+        clamp(15px, 2.3vw, 25px);
 
-      clamp(16px, 2.3vw, 26px);
-
-    font-weight: 900;
+    font-weight:
+        900;
 
     box-shadow:
-
-      0 0 16px
-      rgba(0, 218, 255, .5);
+        0 0 16px rgba(0, 218, 255, .5);
 
     text-shadow:
-
-      0 0 10px #00cfff;
+        0 0 10px #00cfff;
 }
 
 
@@ -186,44 +210,50 @@ body {
 
 button {
 
-    margin-top: 15px;
+    margin-top:
+        14px;
 
-    border: none;
+    border:
+        none;
 
-    border-radius: 14px;
+    border-radius:
+        14px;
 
     padding:
-
-      12px 20px;
+        12px 18px;
 
     font-size:
+        clamp(14px, 2vw, 18px);
 
-      clamp(14px, 2vw, 18px);
+    font-weight:
+        1000;
 
-    font-weight: 1000;
-
-    color: #08204a;
+    color:
+        #08204a;
 
     background:
-
-      linear-gradient(
-        #fff66a,
-        #ffb600
-      );
+        linear-gradient(
+            #fff66a,
+            #ffb600
+        );
 
     box-shadow:
+        0 5px 0 #9a5200,
+        0 0 18px rgba(255, 195, 0, .7);
 
-      0 5px 0 #9a5200,
-
-      0 0 18px
-      rgba(255, 195, 0, .7);
+    cursor:
+        pointer;
 }
 
 
 button:active {
 
     transform:
-      translateY(3px);
+        translateY(3px);
+
+    box-shadow:
+        0 2px 0 #9a5200,
+        0 0 12px rgba(255, 195, 0, .6);
 }
 
 
@@ -231,22 +261,23 @@ button:active {
 
 #power {
 
-    color:
-      #fff566;
+    min-height:
+        28px;
 
     margin-top:
-      10px;
+        10px;
 
-    font-weight:
-      1000;
+    color:
+        #fff566;
 
     font-size:
+        clamp(15px, 2vw, 22px);
 
-      clamp(16px, 2vw, 22px);
+    font-weight:
+        1000;
 
     text-shadow:
-
-      0 0 10px #ffb700;
+        0 0 10px #ffb700;
 }
 
 
@@ -255,32 +286,35 @@ button:active {
 .confetti {
 
     position:
-      fixed;
+        fixed;
 
     inset:
-      0;
+        0;
 
     pointer-events:
-      none;
+        none;
 
     overflow:
-      hidden;
+        hidden;
+
+    z-index:
+        999;
 }
 
 
 .piece {
 
     position:
-      absolute;
+        absolute;
 
     top:
-      -40px;
+        -40px;
 
     font-size:
-      25px;
+        25px;
 
     animation:
-      fall 2.6s linear forwards;
+        fall 2.6s linear forwards;
 }
 
 
@@ -289,41 +323,155 @@ button:active {
     to {
 
         transform:
-
-          translateY(115vh)
-
-          rotate(720deg);
+            translateY(115vh)
+            rotate(720deg);
 
         opacity:
-          .9;
+            .9;
     }
 }
 
 
-/* iPad portrait */
+/* iPad / tablets */
 
-@media
-(max-width: 700px) {
+@media (max-width: 900px) {
+
+    .countdown-container {
+
+        width:
+            90%;
+
+        padding-top:
+            36vh;
+    }
 
     .timer {
 
-        grid-template-columns:
+        gap:
+            8px;
+    }
 
-          repeat(2,1fr);
+    .box {
+
+        padding:
+            12px 5px;
+    }
+
+}
+
+
+/* Phones */
+
+@media (max-width: 600px) {
+
+    body {
+
+        background-size:
+            100% auto;
+
+        background-position:
+            center top;
     }
 
     .countdown-container {
 
-        width: 88%;
+        width:
+            92%;
 
-        top: 48%;
+        padding-top:
+            31vh;
     }
+
+    .timer {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap:
+            8px;
+    }
+
+    .box {
+
+        padding:
+            10px 5px;
+
+        border-radius:
+            14px;
+    }
+
+    .number {
+
+        font-size:
+            clamp(34px, 12vw, 58px);
+    }
+
+    .label {
+
+        font-size:
+            11px;
+    }
+
+    .message {
+
+        margin-top:
+            12px;
+
+        padding:
+            8px 14px;
+
+        font-size:
+            14px;
+    }
+
+    button {
+
+        margin-top:
+            10px;
+
+        padding:
+            10px 14px;
+
+        font-size:
+            14px;
+    }
+
+}
+
+
+/* Very small phones */
+
+@media (max-width: 390px) {
+
+    .countdown-container {
+
+        padding-top:
+            29vh;
+    }
+
+    .timer {
+
+        gap:
+            6px;
+    }
+
+    .number {
+
+        font-size:
+            38px;
+    }
+
+    .label {
+
+        font-size:
+            10px;
+    }
+
 }
 
 </style>
 
 </head>
-
 
 <body>
 
@@ -331,122 +479,102 @@ button:active {
 <div class="countdown-container">
 
 
-<div class="timer">
+    <div class="timer">
 
 
-<div class="box">
+        <div class="box">
 
-<div
-class="number"
-id="days">
+            <div
+                class="number"
+                id="days">
+                00
+            </div>
 
-00
+            <div class="label">
+                DAYS
+            </div>
 
-</div>
-
-<div class="label">
-
-DAYS
-
-</div>
-
-</div>
+        </div>
 
 
+        <div class="box">
 
-<div class="box">
+            <div
+                class="number"
+                id="hours">
+                00
+            </div>
 
-<div
-class="number"
-id="hours">
+            <div class="label">
+                HOURS
+            </div>
 
-00
-
-</div>
-
-<div class="label">
-
-HOURS
-
-</div>
-
-</div>
+        </div>
 
 
+        <div class="box">
 
-<div class="box">
+            <div
+                class="number"
+                id="minutes">
+                00
+            </div>
 
-<div
-class="number"
-id="minutes">
+            <div class="label">
+                MINUTES
+            </div>
 
-00
-
-</div>
-
-<div class="label">
-
-MINUTES
-
-</div>
-
-</div>
+        </div>
 
 
+        <div class="box">
 
-<div class="box">
+            <div
+                class="number"
+                id="seconds">
+                00
+            </div>
 
-<div
-class="number"
-id="seconds">
+            <div class="label">
+                SECONDS
+            </div>
 
-00
-
-</div>
-
-<div class="label">
-
-SECONDS
-
-</div>
-
-</div>
+        </div>
 
 
-</div>
+    </div>
 
 
+    <div
+        class="message"
+        id="message">
 
-<div
-class="message"
-id="message">
+        Loading birthday mission...
 
-Loading birthday mission...
-
-</div>
-
-
-<br>
+    </div>
 
 
-<button
-id="powerButton">
-
-PRESS FOR POWER-UP ⚡
-
-</button>
+    <br>
 
 
-<div id="power"></div>
+    <button
+        id="powerButton"
+        type="button">
+
+        PRESS FOR POWER-UP ⚡
+
+    </button>
+
+
+    <div id="power"></div>
 
 
 </div>
-
 
 
 <div
-class="confetti"
-id="confetti">
+    class="confetti"
+    id="confetti">
 </div>
 
 
@@ -455,17 +583,15 @@ id="confetti">
 
 
 const target =
-new Date(
-"2026-08-22T00:00:00-04:00"
-);
-
+    new Date(
+        "2026-08-22T00:00:00-04:00"
+    );
 
 
 function pad(value) {
 
-return String(value)
-.padStart(2,"0");
-
+    return String(value)
+        .padStart(2, "0");
 }
 
 
@@ -473,125 +599,133 @@ return String(value)
 function updateCountdown() {
 
 
-const now =
-new Date();
+    const now =
+        new Date();
 
 
-const difference =
-target.getTime()
--
-now.getTime();
+    const difference =
+        target.getTime()
+        -
+        now.getTime();
 
 
+    const daysElement =
+        document.getElementById("days");
 
-if (
-difference <= 0
-) {
+    const hoursElement =
+        document.getElementById("hours");
 
+    const minutesElement =
+        document.getElementById("minutes");
 
-days.textContent =
-"00";
+    const secondsElement =
+        document.getElementById("seconds");
 
-
-hours.textContent =
-"00";
-
-
-minutes.textContent =
-"00";
-
-
-seconds.textContent =
-"00";
-
-
-message.textContent =
-
-"🎉 HAPPY 10TH BIRTHDAY RIVAAN! LEVEL 10 UNLOCKED! 🏆";
-
-
-return;
-
-}
+    const messageElement =
+        document.getElementById("message");
 
 
 
-const totalSeconds =
-Math.floor(
-difference / 1000
-);
+    if (difference <= 0) {
+
+
+        daysElement.textContent =
+            "00";
+
+        hoursElement.textContent =
+            "00";
+
+        minutesElement.textContent =
+            "00";
+
+        secondsElement.textContent =
+            "00";
+
+
+        messageElement.textContent =
+            "🎉 HAPPY 10TH BIRTHDAY RIVAAN! LEVEL 10 UNLOCKED! 🏆";
+
+
+        return;
+
+    }
 
 
 
-const d =
-Math.floor(
-totalSeconds / 86400
-);
+    const totalSeconds =
+        Math.floor(
+            difference / 1000
+        );
+
+
+    const d =
+        Math.floor(
+            totalSeconds / 86400
+        );
+
+
+    const h =
+        Math.floor(
+            (totalSeconds % 86400)
+            /
+            3600
+        );
+
+
+    const m =
+        Math.floor(
+            (totalSeconds % 3600)
+            /
+            60
+        );
+
+
+    const s =
+        totalSeconds % 60;
 
 
 
-const h =
-Math.floor(
-
-(totalSeconds % 86400)
-
-/ 3600
-
-);
+    daysElement.textContent =
+        pad(d);
 
 
+    hoursElement.textContent =
+        pad(h);
 
-const m =
-Math.floor(
 
-(totalSeconds % 3600)
+    minutesElement.textContent =
+        pad(m);
 
-/ 60
 
-);
+    secondsElement.textContent =
+        pad(s);
 
 
 
-const s =
-totalSeconds % 60;
+    if (d === 0) {
 
+        messageElement.textContent =
+            "🔥 FINAL HOURS! LEVEL 10 ALMOST UNLOCKED!";
 
+    }
 
-days.textContent =
-pad(d);
+    else if (d === 1) {
 
+        messageElement.textContent =
+            "🚀 FINAL DAY! LEVEL 10 ALMOST UNLOCKED!";
 
-hours.textContent =
-pad(h);
+    }
 
+    else {
 
-minutes.textContent =
-pad(m);
+        messageElement.textContent =
+            "🚀 "
+            +
+            d
+            +
+            " DAYS UNTIL LEVEL 10!";
 
-
-seconds.textContent =
-pad(s);
-
-
-
-if (d === 1) {
-
-message.textContent =
-
-"🚀 FINAL DAY! LEVEL 10 ALMOST UNLOCKED!";
-
-}
-
-else {
-
-message.textContent =
-
-"🚀 " +
-d +
-" DAYS UNTIL LEVEL 10!";
-
-}
-
+    }
 
 }
 
@@ -600,144 +734,133 @@ d +
 function powerUp() {
 
 
-const confetti =
-
-document.getElementById(
-"confetti"
-);
-
-
-confetti.innerHTML =
-"";
+    const confetti =
+        document.getElementById(
+            "confetti"
+        );
 
 
-const icons = [
+    confetti.innerHTML =
+        "";
 
-"🎉",
 
-"⭐",
+    const icons = [
 
-"⚡",
+        "🎉",
+        "⭐",
+        "⚡",
+        "🎮",
+        "✨",
+        "🏆",
+        "🎂"
 
-"🎮",
-
-"✨",
-
-"🏆",
-
-"🎂"
-
-];
+    ];
 
 
 
-for (
-let i = 0;
-i < 50;
-i++
-) {
+    for (
+        let i = 0;
+        i < 50;
+        i++
+    ) {
 
 
-const piece =
-
-document.createElement(
-"div"
-);
-
-
-piece.className =
-"piece";
+        const piece =
+            document.createElement(
+                "div"
+            );
 
 
-piece.textContent =
-
-icons[
-Math.floor(
-Math.random()
-*
-icons.length
-)
-];
+        piece.className =
+            "piece";
 
 
-piece.style.left =
+        piece.textContent =
 
-Math.random()
-*
-100
-+
-"vw";
-
-
-piece.style.animationDelay =
-
-Math.random()
-*
-0.7
-+
-"s";
+            icons[
+                Math.floor(
+                    Math.random()
+                    *
+                    icons.length
+                )
+            ];
 
 
-piece.style.animationDuration =
-
-1.8
-+
-Math.random()
-*
-1.6
-+
-"s";
+        piece.style.left =
+            Math.random()
+            *
+            100
+            +
+            "vw";
 
 
-confetti.appendChild(
-piece
-);
+        piece.style.animationDelay =
+            Math.random()
+            *
+            0.7
+            +
+            "s";
 
-}
+
+        piece.style.animationDuration =
+            1.8
+            +
+            Math.random()
+            *
+            1.6
+            +
+            "s";
+
+
+        confetti.appendChild(
+            piece
+        );
+
+    }
 
 
 
-document
-.getElementById(
-"power"
-)
-.textContent =
+    document
+        .getElementById(
+            "power"
+        )
+        .textContent =
 
-"⚡ RIVAAN +100 BIRTHDAY XP! 🏆";
+        "⚡ RIVAAN +100 BIRTHDAY XP! 🏆";
 
 
 
-setTimeout(
-() => {
+    setTimeout(
+        function() {
 
-confetti.innerHTML =
-"";
+            confetti.innerHTML =
+                "";
 
-},
-4000
-);
-
+        },
+        4000
+    );
 
 }
 
 
 
 document
-.getElementById(
-"powerButton"
-)
-.addEventListener(
-"click",
-powerUp
-);
+    .getElementById(
+        "powerButton"
+    )
+    .addEventListener(
+        "click",
+        powerUp
+    );
+
 
 
 updateCountdown();
 
 
 setInterval(
-updateCountdown,
-1000
+    updateCountdown,
+    1000
 );
 
 
